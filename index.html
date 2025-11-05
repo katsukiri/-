@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Плюшки Красной Книги | Мягкие спасатели дикой природы</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f8ff;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .slogan {
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: bold;
+            max-width: 600px;
+        }
+
+        .donation-info {
+            background-color: #e1f5fe;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            border: 1px dashed #3498db;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            display: block;
+            border-radius: 15px;
+        }
+
+        .animal-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .buy-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 0 #c0392b;
+        }
+
+        .buy-button:hover {
+            background-color: #c0392b;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #a53125;
+        }
+
+        .animal-list {
+            margin-top: 30px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .animal-list h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .animal-list ul {
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .animal-list li {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Плюшки Красной Книги</h1>
+        <p class="slogan">Обними игрушку - спаси животное! Каждая покупка помогает сохранить исчезающие виды.</p>
+        <div class="donation-info">60% от стоимости каждой игрушки направляется в фонды защиты краснокнижных животных</div>
+    </header>
+
+    <div class="slider-container">
+        <div class="slider">
+            <!-- Слайд 1 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/500x400/87CEEB/FFFFFF?text=Плюшевый+Снежный+Барс" alt="Плюшевый снежный барс" id="current-image">
+                <div class="animal-name">Снежный барс (Ирбис)</div>
+            </div>
+            <!-- Слайд 2 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/500x400/98FB98/FFFFFF?text=Плюшевая+Амурский+Тигр" alt="Плюшевый амурский тигр">
+                <div class="animal-name">Амурский тигр</div>
+            </div>
+            <!-- Слайд 3 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/500x400/FFB6C1/FFFFFF?text=Плюшевая+Большая+Панда" alt="Плюшевая большая панда">
+                <div class="animal-name">Большая панда</div>
+            </div>
+            <!-- Слайд 4 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/500x400/DDA0DD/FFFFFF?text=Плюшевый+Дальневосточный+Леопард" alt="Плюшевый дальневосточный леопард">
+                <div class="animal-name">Дальневосточный леопард</div>
+            </div>
+        </div>
+        
+        <button class="nav-button prev">❮</button>
+        <button class="nav-button next">❯</button>
+    </div>
+
+    <button class="buy-button">КУПИТЬ</button>
+
+    <div class="animal-list">
+        <h2>Наши плюшевые герои из Красной Книги:</h2>
+        <ul>
+            <li>Снежный барс (Ирбис)</li>
+            <li>Амурский тигр</li>
+            <li>Большая панда</li>
+            <li>Дальневосточный леопард</li>
+            <li>Красный волк</li>
+            <li>Белый медведь</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>© 2023 Плюшки Красной Книги. Все покупки помогают спасать животных.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.slider');
+            const slides = document.querySelectorAll('.slide');
+            const prevButton = document.querySelector('.prev');
+            const nextButton = document.querySelector('.next');
+            const buyButton = document.querySelector('.buy-button');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            // Функция для обновления позиции слайдера
+            function updateSlider() {
+                slider.style.transform = translateX(-${currentSlide * 100}%);
+            }
+            
+            // Переход к следующему слайду
+            nextButton.addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlider();
+            });
+            
+            // Переход к предыдущему слайду
+            prevButton.addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            });
+            
+            // Обработчик для кнопки покупки
+            buyButton.addEventListener('click', function() {
+                const animalNames = [
+                    "Снежного барса (Ирбиса)",
+                    "Амурского тигра",
+                    "Большую панду",
+                    "Дальневосточного леопарда"
+                ];
+                alert(Спасибо за ваш интерес к покупке плюшевого ${animalNames[currentSlide]}! Скоро мы с вами свяжемся для оформления заказа.);
+            });
+            
+            // Инициализация слайдера
+            updateSlider();
+        });
+    </script>
+</body>
+</html>
