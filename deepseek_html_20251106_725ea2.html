@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина - Плюшевые друзья Красной книги</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка сайта */
+        header {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .cart-icon {
+            position: relative;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e67e22;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        /* Основной контент */
+        .page-title {
+            text-align: center;
+            margin: 2rem 0;
+            color: #2c5530;
+            font-size: 2.2rem;
+        }
+        
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Список товаров */
+        .cart-items {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-details h3 {
+            margin-bottom: 0.5rem;
+            color: #2c5530;
+        }
+        
+        .item-price {
+            font-weight: bold;
+            color: #e67e22;
+            font-size: 1.1rem;
+        }
+        
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background: #f0f7f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .quantity-btn:hover {
+            background: #e0efe0;
+        }
+        
+        .quantity {
+            margin: 0 0.5rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* Панель корзины */
+        .cart-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .summary-title {
+            margin-bottom: 1.5rem;
+            color: #2c5530;
+            font-size: 1.5rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #eee;
+        }
+        
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #d35400;
+        }
+        
+        .checkout-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        /* Форма доставки */
+        .delivery-form {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+        
+        .form-title {
+            margin-bottom: 1.5rem;
+            color: #2c5530;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #2c5530;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-cart p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .continue-shopping {
+            display: inline-block;
+            background-color: #2c5530;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .continue-shopping:hover {
+            background-color: #1e3a23;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                background-color: #2c5530;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                display: none;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+            
+            .item-controls {
+                grid-column: 1 / -1;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+        
+        /* Анимации */
+        .item-removing {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .price-update {
+            animation: pricePulse 0.5s;
+        }
+        
+        @keyframes pricePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <!-- Замените на путь к вашему логотипу -->
+                    <img src="logo.png" alt="Плюшевые друзья Красной книги">
+                    <div class="logo-text">Плюшевые друзья</div>
+                </a>
+                
+                <button class="menu-toggle">☰</button>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="toys.html">Игрушки</a></li>
+                    <li><a href="animals.html">О животных</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                    <li class="cart-icon">
+                        <a href="korzina.html">🛒 <span class="cart-count">3</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container">
+        <h1 class="page-title">Ваша корзина</h1>
+        
+        <div class="cart-container">
+            <!-- Список товаров в корзине -->
+            <div class="cart-items" id="cart-items">
+                <div class="cart-item" data-id="1" data-price="2500">
+                    <div class="item-image">
+                        <img src="https://source.unsplash.com/random/300x200/?panda" alt="Плюшевая панда">
+                    </div>
+                    <div class="item-details">
+                        <h3>Большая панда</h3>
+                        <p>Мягкая плюшевая панда с натуральными материалами</p>
+                        <div class="item-price">2 500 руб.</div>
+                    </div>
+                    <div class="item-controls">
+                        <button class="quantity-btn">-</button>
+                        <span class="quantity">1</span>
+                        <button class="quantity-btn">+</button>
+                        <button class="remove-btn">Удалить</button>
+                    </div>
+                </div>
+                
+                <div class="cart-item" data-id="2" data-price="2800">
+                    <div class="item-image">
+                        <img src="https://source.unsplash.com/random/300x200/?tiger" alt="Плюшевый тигр">
+                    </div>
+                    <div class="item-details">
+                        <h3>Амурский тигр</h3>
+                        <p>Игрушка из экологичных материалов</p>
+                        <div class="item-price">2 800 руб.</div>
+                    </div>
+                    <div class="item-controls">
+                        <button class="quantity-btn">-</button>
+                        <span class="quantity">1</span>
+                        <button class="quantity-btn">+</button>
+                        <button class="remove-btn">Удалить</button>
+                    </div>
+                </div>
+                
+                <div class="cart-item" data-id="3" data-price="3200">
+                    <div class="item-image">
+                        <img src="https://source.unsplash.com/random/300x200/?leopard" alt="Плюшевый леопард">
+                    </div>
+                    <div class="item-details">
+                        <h3>Дальневосточный леопард</h3>
+                        <p>Редкий вид в мягком исполнении</p>
+                        <div class="item-price">3 200 руб.</div>
+                    </div>
+                    <div class="item-controls">
+                        <button class="quantity-btn">-</button>
+                        <span class="quantity">1</span>
+                        <button class="quantity-btn">+</button>
+                        <button class="remove-btn">Удалить</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Сводка заказа -->
+            <div class="cart-summary">
+                <h2 class="summary-title">Сводка заказа</h2>
+                
+                <div class="summary-row">
+                    <span>Товары (<span id="items-count">3</span>)</span>
+                    <span id="items-total">8 500 руб.</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Доставка</span>
+                    <span id="delivery-cost">500 руб.</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Скидка</span>
+                    <span id="discount">-300 руб.</span>
+                </div>
+                
+                <div class="summary-row summary-total">
+                    <span>Итого</span>
+                    <span id="total-cost">8 700 руб.</span>
+                </div>
+                
+                <button class="checkout-btn" id="checkout-btn">Перейти к оформлению</button>
+                
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="toys.html" class="continue-shopping">Продолжить покупки</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Форма доставки -->
+        <div class="delivery-form">
+            <h2 class="form-title">Данные для доставки</h2>
+            
+            <form id="delivery-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">Имя *</label>
+                        <input type="text" id="first-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last-name">Фамилия *</label>
+                        <input type="text" id="last-name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Телефон *</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Адрес доставки *</label>
+                    <textarea id="address" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">Город *</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postal-code">Почтовый индекс *</label>
+                        <input type="text" id="postal-code" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="delivery-method">Способ доставки</label>
+                    <select id="delivery-method">
+                        <option value="courier">Курьерская доставка (500 руб.)</option>
+                        <option value="pickup">Самовывоз (бесплатно)</option>
+                        <option value="post">Почта России (300 руб.)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment-method">Способ оплаты</label>
+                    <select id="payment-method">
+                        <option value="card">Банковская карта</option>
+                        <option value="cash">Наличными при получении</option>
+                        <option value="online">Онлайн-платеж</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comments">Комментарий к заказу</label>
+                    <textarea id="comments" placeholder="Дополнительные пожелания к заказу"></textarea>
+                </div>
+                
+                <button type="submit" class="checkout-btn" id="form-submit-btn">Оформить заказ</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>О нас</h3>
+                    <p>Мы создаем плюшевые игрушки вымирающих животных и поддерживаем фонды защиты дикой природы.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="toys.html">Игрушки</a></li>
+                        <li><a href="animals.html">О животных</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Социальные сети</h3>
+                    <div class="social-links">
+                        <a href="#">VK</a>
+                        <a href="#">TG</a>
+                        <a href="#">YT</a>
+                        <a href="#">IG</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Плюшевые друзья Красной книги. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Мобильное меню
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Данные о стоимости доставки
+        const deliveryCosts = {
+            'courier': 500,
+            'pickup': 0,
+            'post': 300
+        };
+        
+        // Инициализация корзины
+        let cart = [
+            { id: 1, name: 'Большая панда', price: 2500, quantity: 1 },
+            { id: 2, name: 'Амурский тигр', price: 2800, quantity: 1 },
+            { id: 3, name: 'Дальневосточный леопард', price: 3200, quantity: 1 }
+        ];
+        
+        // Функция форматирования цены
+        function formatPrice(price) {
+            return new Intl.NumberFormat('ru-RU').format(price) + ' руб.';
+        }
+        
+        // Функция обновления сводки заказа
+        function updateCartSummary() {
+            // Расчет стоимости товаров
+            const itemsTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const itemsCount = cart.reduce((count, item) => count + item.quantity, 0);
+            
+            // Получение стоимости доставки
+            const deliveryMethod = document.getElementById('delivery-method').value;
+            const deliveryCost = deliveryCosts[deliveryMethod];
+            
+            // Расчет скидки (например, 5% при заказе от 5000 руб)
+            let discount = 0;
+            if (itemsTotal >= 5000) {
+                discount = Math.floor(itemsTotal * 0.05);
+            }
+            
+            // Итоговая стоимость
+            const totalCost = itemsTotal + deliveryCost - discount;
+            
+            // Обновление отображения
+            document.getElementById('items-count').textContent = itemsCount;
+            document.getElementById('items-total').textContent = formatPrice(itemsTotal);
+            document.getElementById('delivery-cost').textContent = deliveryCost === 0 ? 'Бесплатно' : formatPrice(deliveryCost);
+            document.getElementById('discount').textContent = discount === 0 ? '0 руб.' : `-${formatPrice(discount)}`;
+            document.getElementById('total-cost').textContent = formatPrice(totalCost);
+            
+            // Обновление счетчика в корзине
+            document.querySelector('.cart-count').textContent = itemsCount;
+            
+            // Анимация обновления цен
+            document.getElementById('items-total').classList.add('price-update');
+            document.getElementById('total-cost').classList.add('price-update');
+            setTimeout(() => {
+                document.getElementById('items-total').classList.remove('price-update');
+                document.getElementById('total-cost').classList.remove('price-update');
+            }, 500);
+            
+            // Блокировка кнопки оформления заказа, если корзина пуста
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const formSubmitBtn = document.getElementById('form-submit-btn');
+            
+            if (cart.length === 0) {
+                checkoutBtn.disabled = true;
+                formSubmitBtn.disabled = true;
+                checkoutBtn.textContent = 'Корзина пуста';
+                formSubmitBtn.textContent = 'Корзина пуста';
+            } else {
+                checkoutBtn.disabled = false;
+                formSubmitBtn.disabled = false;
+                checkoutBtn.textContent = 'Перейти к оформлению';
+                formSubmitBtn.textContent = 'Оформить заказ';
+            }
+        }
+        
+        // Управление количеством товаров
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const cartItem = this.closest('.cart-item');
+                const itemId = parseInt(cartItem.dataset.id);
+                const quantityElement = this.parentElement.querySelector('.quantity');
+                
+                // Находим товар в корзине
+                const itemIndex = cart.findIndex(item => item.id === itemId);
+                if (itemIndex === -1) return;
+                
+                let quantity = cart[itemIndex].quantity;
+                
+                if (this.textContent === '+') {
+                    quantity++;
+                } else if (this.textContent === '-' && quantity > 1) {
+                    quantity--;
+                }
+                
+                // Обновляем количество
+                cart[itemIndex].quantity = quantity;
+                quantityElement.textContent = quantity;
+                
+                // Обновляем сводку
+                updateCartSummary();
+            });
+        });
+        
+        // Удаление товаров
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const cartItem = this.closest('.cart-item');
+                const itemId = parseInt(cartItem.dataset.id);
+                
+                // Находим товар в корзине
+                const itemIndex = cart.findIndex(item => item.id === itemId);
+                if (itemIndex === -1) return;
+                
+                // Удаляем товар из корзины
+                cart.splice(itemIndex, 1);
+                
+                // Анимация удаления
+                cartItem.classList.add('item-removing');
+                setTimeout(() => {
+                    cartItem.remove();
+                    
+                    // Проверяем, пуста ли корзина
+                    if (cart.length === 0) {
+                        document.getElementById('cart-items').innerHTML = `
+                            <div class="empty-cart">
+                                <p>Ваша корзина пуста</p>
+                                <a href="toys.html" class="continue-shopping">Вернуться к покупкам</a>
+                            </div>
+                        `;
+                    }
+                }, 300);
+                
+                // Обновляем сводку
+                updateCartSummary();
+            });
+        });
+        
+        // Обработка изменения способа доставки
+        document.getElementById('delivery-method').addEventListener('change', function() {
+            updateCartSummary();
+        });
+        
+        // Обработка формы
+        document.getElementById('delivery-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Ваша корзина пуста. Добавьте товары перед оформлением заказа.');
+                return;
+            }
+            
+            alert('Заказ успешно оформлен! Спасибо за покупку!');
+            // В реальном приложении здесь будет отправка данных на сервер
+            
+            // Очистка корзины после оформления заказа
+            cart = [];
+            document.getElementById('cart-items').innerHTML = `
+                <div class="empty-cart">
+                    <p>Ваша корзина пуста</p>
+                    <a href="toys.html" class="continue-shopping">Вернуться к покупкам</a>
+                </div>
+            `;
+            updateCartSummary();
+        });
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartSummary();
+        });
+    </script>
+</body>
+</html>
