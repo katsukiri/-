@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Плюшевые друзья Красной книги - Главная</title>
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка сайта */
+        header {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        /* Герой-секция */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://source.unsplash.com/random/1200x600/?nature,forest');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #d35400;
+            transform: translateY(-3px);
+        }
+        
+        /* Секции */
+        .section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c5530;
+            font-size: 2.2rem;
+        }
+        
+        /* О нас */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .about-content h2 {
+            color: #2c5530;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-content p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Популярные игрушки */
+        .toys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .toy-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .toy-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .toy-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .toy-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .toy-card:hover .toy-image img {
+            transform: scale(1.1);
+        }
+        
+        .toy-info {
+            padding: 1.5rem;
+        }
+        
+        .toy-info h3 {
+            margin-bottom: 0.5rem;
+            color: #2c5530;
+        }
+        
+        .toy-price {
+            font-weight: bold;
+            color: #e67e22;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        
+        /* О животных */
+        .animals {
+            background-color: #f0f7f0;
+        }
+        
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .animal-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .animal-image {
+            height: 200px;
+        }
+        
+        .animal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .animal-info {
+            padding: 1.5rem;
+        }
+        
+        .animal-info h3 {
+            margin-bottom: 1rem;
+            color: #2c5530;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Контакты */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-item i {
+            font-size: 2rem;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+        
+        .map {
+            height: 300px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #2c5530;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                background-color: #2c5530;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                display: none;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <!-- Замените на путь к вашему логотипу -->
+                    <img src="logo.png" alt="Плюшевые друзья Красной книги">
+                    <div class="logo-text">Плюшевые друзья</div>
+                </div>
+                
+                <button class="menu-toggle">☰</button>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="toys.html">Игрушки</a></li>
+                    <li><a href="animals.html">О животных</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Герой-секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Спасаем вымирающих животных через плюшевые игрушки</h1>
+                <p>Каждая покупка помогает сохранить редкие виды животных из Красной книги</p>
+                <a href="toys.html" class="btn">Посмотреть игрушки</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- О нас -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">О нашей миссии</h2>
+            <div class="about">
+                <div class="about-image">
+                    <!-- Замените на путь к вашей картинке с игрушкой -->
+                    <img src="https://source.unsplash.com/random/600x400/?teddy,bear" alt="Наши плюшевые игрушки">
+                </div>
+                <div class="about-content">
+                    <h2>Почему мы это делаем?</h2>
+                    <p>Мы создаем плюшевые игрушки, которые не только дарят радость детям, но и помогают сохранить вымирающие виды животных.</p>
+                    <p>С каждой проданной игрушки мы перечисляем 20% от стоимости в фонды защиты дикой природы и программы по сохранению редких видов.</p>
+                    <p>Наша цель - через мягкие игрушки рассказать детям и взрослым о важности сохранения биоразнообразия нашей планеты.</p>
+                    <a href="about.html" class="btn">Узнать больше</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Популярные игрушки -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Популярные игрушки</h2>
+            <div class="toys-grid">
+                <div class="toy-card">
+                    <div class="toy-image">
+                        <!-- Замените на путь к картинке игрушки -->
+                        <img src="https://source.unsplash.com/random/300x200/?panda" alt="Плюшевая панда">
+                    </div>
+                    <div class="toy-info">
+                        <h3>Большая панда</h3>
+                        <p>Мягкая плюшевая панда с натуральными материалами</p>
+                        <div class="toy-price">2 500 руб.</div>
+                        <a href="#" class="btn">Купить</a>
+                    </div>
+                </div>
+                
+                <div class="toy-card">
+                    <div class="toy-image">
+                        <img src="https://source.unsplash.com/random/300x200/?tiger" alt="Плюшевый тигр">
+                    </div>
+                    <div class="toy-info">
+                        <h3>Амурский тигр</h3>
+                        <p>Игрушка из экологичных материалов</p>
+                        <div class="toy-price">2 800 руб.</div>
+                        <a href="#" class="btn">Купить</a>
+                    </div>
+                </div>
+                
+                <div class="toy-card">
+                    <div class="toy-image">
+                        <img src="https://source.unsplash.com/random/300x200/?leopard" alt="Плюшевый леопард">
+                    </div>
+                    <div class="toy-info">
+                        <h3>Дальневосточный леопард</h3>
+                        <p>Редкий вид в мягком исполнении</p>
+                        <div class="toy-price">3 200 руб.</div>
+                        <a href="#" class="btn">Купить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О животных -->
+    <section class="section animals">
+        <div class="container">
+            <h2 class="section-title">О животных из Красной книги</h2>
+            <div class="animals-grid">
+                <div class="animal-card">
+                    <div class="animal-image">
+                        <img src="https://source.unsplash.com/random/300x200/?panda,animal" alt="Большая панда">
+                    </div>
+                    <div class="animal-info">
+                        <h3>Большая панда</h3>
+                        <span class="status">Уязвимый вид</span>
+                        <p>Большая панда обитает в горных регионах центрального Китая. Основная угроза - разрушение естественной среды обитания.</p>
+                    </div>
+                </div>
+                
+                <div class="animal-card">
+                    <div class="animal-image">
+                        <img src="https://source.unsplash.com/random/300x200/?tiger,animal" alt="Амурский тигр">
+                    </div>
+                    <div class="animal-info">
+                        <h3>Амурский тигр</h3>
+                        <span class="status">Вымирающий вид</span>
+                        <p>Самый крупный подвид тигра, обитающий в лесах Дальнего Востока. В природе осталось около 500 особей.</p>
+                    </div>
+                </div>
+                
+                <div class="animal-card">
+                    <div class="animal-image">
+                        <img src="https://source.unsplash.com/random/300x200/?leopard,animal" alt="Дальневосточный леопард">
+                    </div>
+                    <div class="animal-info">
+                        <h3>Дальневосточный леопард</h3>
+                        <span class="status">На грани исчезновения</span>
+                        <p>Самая редкая крупная кошка в мире. В дикой природе осталось менее 100 особей.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i>📍</i>
+                    <h3>Адрес</h3>
+                    <p>г. Москва, ул. Защитников природы, д. 15</p>
+                </div>
+                
+                <div class="contact-item">
+                    <i>📞</i>
+                    <h3>Телефон</h3>
+                    <p>+7 (999) 123-45-67</p>
+                </div>
+                
+                <div class="contact-item">
+                    <i>✉️</i>
+                    <h3>Email</h3>
+                    <p>info@plush-friends.ru</p>
+                </div>
+            </div>
+            
+            <div class="map">
+                <!-- Здесь будет карта -->
+                <div style="width: 100%; height: 100%; background-color: #ddd; display: flex; align-items: center; justify-content: center;">
+                    Карта будет здесь
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>О нас</h3>
+                    <p>Мы создаем плюшевые игрушки вымирающих животных и поддерживаем фонды защиты дикой природы.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="toys.html">Игрушки</a></li>
+                        <li><a href="animals.html">О животных</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Социальные сети</h3>
+                    <div class="social-links">
+                        <a href="#">VK</a>
+                        <a href="#">TG</a>
+                        <a href="#">YT</a>
+                        <a href="#">IG</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Плюшевые друзья Красной книги. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Мобильное меню
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
